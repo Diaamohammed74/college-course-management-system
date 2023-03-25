@@ -1,0 +1,31 @@
+.pagination a {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    margin: 0.5rem;
+    background-color: #f8f9fa;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.pagination .active a {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination .disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination .next a::after {
+    content: ">>";
+    margin-left: 0.5rem;
+}
+
+.pagination .prev a::before {
+    content: "<<";
+    margin-right: 0.5rem;
+}
