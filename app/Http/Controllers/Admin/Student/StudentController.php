@@ -17,7 +17,11 @@ class StudentController extends Controller
     private DepartmentRepositoryInterface $departmentRepository;
     private LevelRepositoryInterface $levelRepository;
     private StudentRepositoryInterface $studentRepository;
-    public function __construct(DepartmentRepositoryInterface $departmentRepository,LevelRepositoryInterface $levelRepository,StudentRepositoryInterface $studentRepository) 
+    public function __construct(
+        DepartmentRepositoryInterface $departmentRepository,
+        LevelRepositoryInterface $levelRepository,
+        StudentRepositoryInterface $studentRepository
+    ) 
     {
         $this->departmentRepository = $departmentRepository;
         $this->levelRepository = $levelRepository;
@@ -43,13 +47,10 @@ class StudentController extends Controller
         $departments=$this->departmentRepository->getAllDepartments();
         $status=MyEnum::getEnumOptions('students','status');
         
-        return view
-        ('admin.students.students-index', 
-        compact
-        (
-            'students', 'departmentFilter'
-            , 'statusFilter','departments'
-            ,'status'
+        return view('admin.students.students-index'
+        ,compact('students', 'departmentFilter'
+        , 'statusFilter','departments'
+        ,'status'
         ));
     }
     public function search(Request $request)

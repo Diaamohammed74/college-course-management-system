@@ -25,15 +25,8 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg"></p>
                 @include('admin.layout.messages')
-                {{-- @if ($errors->any())
-                    <div class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                @endif --}}
                 <form action="{{ route('loginrequest') }}" method="POST">
                     @csrf
                     <div class="input-group mb-3">
@@ -67,9 +60,6 @@
                         <div class="col-8">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">
-                                {{-- <label for="remember">
-                                    Remember Me
-                                </label> --}}
                             </div>
                         </div>
                         <!-- /.col -->

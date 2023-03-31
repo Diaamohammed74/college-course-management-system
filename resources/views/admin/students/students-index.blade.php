@@ -8,69 +8,66 @@
     View-Students
 @endsection
 @section('content')
-    <div class="col-md-6">
+<form action="{{ route('students') }}" method="GET">
+    <div class="col-md-5">
         <div class="form-group">
             <label for="filter">Filter:</label>
-            <form action="{{ route('students') }}" method="GET">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <select class="form-control" name="department">
-                            <option value="">By Department</option>
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
-                                    {{ $departmentFilter == $department->id ? 'selected' : '' }}>{{ $department->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="status">
-                            <option value="">By Status</option>
-                            @foreach ($status as $key => $value)
-                                <option value="{{ $value }}" {{ $statusFilter == $value ? 'selected' : '' }}>
-                                    {{ $key }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary">Filter</button>
-                        <a href="{{ route('students') }}" class="btn btn-default">Reset</a>
-                    </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <select class="form-control" name="department">
+                        <option value="">By Department</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->id }}" {{ $departmentFilter == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </form>
-        </div>
-        <div class="form-group">
-            <label for="pdf">Export PDF</label>
-            <form action="{{ route('students.pdf') }}" method="GET">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <select class="form-control" name="department">
-                            <option value="">By Department</option>
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
-                                    {{ $departmentFilter == $department->id ? 'selected' : '' }}>{{ $department->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="status">
-                            <option value="">By Status</option>
-                            @foreach ($status as $key => $value)
-                                <option value="{{ $value }}" {{ $statusFilter == $value ? 'selected' : '' }}>
-                                    {{ $key }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary">Export</button>
-                    </div>
+                <div class="col-sm-3">
+                    <select class="form-control" name="status">
+                        <option value="">By Status</option>
+                        @foreach ($status as $key => $value)
+                            <option value="{{ $value }}" {{ $statusFilter == $value ? 'selected' : '' }}>{{ $key }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </form>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="{{ route('students') }}" class="btn btn-info">Reset</a>
+                </div>
+            </div>
         </div>
     </div>
+</form>
+
+<form action="{{ route('students.pdf') }}" method="GET">
+    <div class="col-md-5">
+        <div class="form-group">
+            <label for="pdf">Export PDF</label>
+            <div class="row">
+                <div class="col-sm-4">
+                    <select class="form-control" name="department">
+                        <option value="">By Department</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->id }}" {{ $departmentFilter == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" name="status">
+                        <option value="">By Status</option>
+                        @foreach ($status as $key => $value)
+                            <option value="{{ $value }}" {{ $statusFilter == $value ? 'selected' : '' }}>{{ $key }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-secondary">PDF</button>
+                    <a href="{{ route('students') }}" class="btn btn-info">Reset</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
     @include('admin.layout.messages')
     <div class="col-12">
         <div class="card">
@@ -121,7 +118,7 @@
                                 </td>
                                 <td>
                                     @if($student->total_courses_grades>0 &&$student->total_enrolled_courses_marks>0 )
-                                    {{($student->total_courses_grades/$student->total_enrolled_courses_marks)*100}} %
+                                    {{ number_format(($student->total_courses_grades/$student->total_enrolled_courses_marks)*100,2) }}%
                                     @else
                                     ــ
                                     @endif

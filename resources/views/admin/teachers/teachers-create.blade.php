@@ -1,32 +1,33 @@
 @extends('admin.layout.app')
 
 @section('PageHeader')
-    Add-Teacher
+    Add-Lecturer
 @endsection
 
 @section('PageTitle')
-    Add-Teacher
+    Add-Lecturer
 @endsection
 
 @section('content')
     <div class="p-1">
-        <a href="#" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">Back to
-            Teachers</a>
+        <a href="{{ route('teachers') }}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+            View Lecturers
+        </a>
     </div>
     @include('admin.layout.messages')
 
     <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Add Teacher</h3>
+            <h3 class="card-title">Add Lecturer</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form class="form-horizontal" action="{{route('teacher/store')}}" method="post">
+        <form class="form-horizontal" action="{{ route('teacher/store') }}" method="post">
             @csrf
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-4">
-                        <label for="name">Teacher Name</label>
+                        <label for="name">Lecturer Name</label>
                         <input type="text" name='name'
                             class="form-control @error('name')
                     is-invalid
@@ -37,7 +38,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="email">Teacher Email</label>
+                        <label for="email">Lecturer Email</label>
                         <input type="text" name='email'
                             class="form-control @error('email')
                     is-invalid
@@ -48,7 +49,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="phone">Teacher Phone</label>
+                        <label for="phone">Lecturer Phone</label>
                         <input type="phone" name='phone'
                             class="form-control @error('phone')
                     is-invalid
@@ -114,5 +115,5 @@
             <!-- /.card-footer -->
         </form>
     </div>
-@include('admin.scripts.courses')
+    @include('admin.scripts.courses')
 @endsection

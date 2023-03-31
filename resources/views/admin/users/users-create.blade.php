@@ -10,8 +10,9 @@
 
 @section('content')
     <div class="p-1">
-        <a href="#" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">Back to
-            Students</a>
+        <a href="{{route('users')}}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+            Show Faculty Members
+        </a>
     </div>
     @include('admin.layout.messages')
     <div class="card card-info">
@@ -57,7 +58,15 @@
                             name="type" id="type">
                             <option value='0' disabled selected>Choose type</option>
                             @foreach ($types as $key =>$value )
-                            <option value='{{$value}}'>{{$key}}</option>
+                            <option value='{{$value}}'>
+                                @if ($key=='super_admin')
+                                Super Admin
+                            @elseif ($key=='admin')
+                                Admin
+                                @else
+                                College Advisor
+                                @endif
+                            </option>
                             @endforeach
                         </select>
                         @error('type')

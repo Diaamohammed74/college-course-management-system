@@ -12,12 +12,13 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->words(3, true),
+            'name' => "FMI student".fake()->unique()->randomNumber(3, true) % 1001,
             'email' => fake()->email(),
-            'phone' => fake()->phoneNumber(),
-            'status' => fake()->randomElement(['grad','undergrad']),
+            'phone' => '01550285811',
+            'total_completed_hours'=>fake()->randomElement([0,50,100,140]),
+            'status' => fake()->randomElement(['undergrad']),
             'department_id' => function () {
-                return Department::first()->id;
+                return Department::where('id',2)->first()->id;
             },
             'level_id' => function () {
                 return Level::first()->id;

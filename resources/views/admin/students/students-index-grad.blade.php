@@ -7,6 +7,7 @@
 @section('PageTitle')
     View-Graduated Students
 @endsection
+
 @section('content')
     @include('admin.layout.messages')
     <div class="col-12">
@@ -16,7 +17,7 @@
                 <div class="card-tools">
                     <form action="{{ route('student/search') }}" method="GET">
                         <div class="input-group input-group-sm" style="width: 200px;">
-                            <input type="text" name="Search" class="form-control float-right " placeholder="Search">
+                            <input type="text" name="search" class="form-control float-right " placeholder="Search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="fas fa-search"></i>
@@ -57,8 +58,8 @@
                                     {{ $student->level->name }}
                                 </td>
                                 <td>
-                                    @if($student->total_courses_grades>0)
-                                    {{($student->total_courses_grades/$student->total_enrolled_courses_marks)*100}} %
+                                    @if($student->total_courses_grades>0 &&$student->total_enrolled_courses_marks>0)
+                                    {{number_format(($student->total_courses_grades/$student->total_enrolled_courses_marks)*100,2)}} %
                                     @else
                                     ــ
                                     @endif

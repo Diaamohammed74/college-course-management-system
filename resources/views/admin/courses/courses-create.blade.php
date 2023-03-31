@@ -10,8 +10,9 @@
 
 @section('content')
     <div class="p-1">
-        <a href="#" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">Back to
-            Courses</a>
+        <a href="{{route('courses')}}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+            View Courses
+        </a>
     </div>
     @include('admin.layout.messages')
 

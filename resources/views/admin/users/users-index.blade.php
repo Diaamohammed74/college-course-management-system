@@ -13,13 +13,18 @@
             <label for="filter">Filter:</label>
             <form action="" method="GET">
                 <div class="row">
-
                     <div class="col-sm-4">
                         <select class="form-control" name="type">
-                            <option value="">By type</option>
+                            <option value="">By Type</option>
                             @foreach ($type as $key => $value)
                                 <option value="{{ $value }}" {{ $typeFilter == $value ? 'selected' : '' }}>
-                                    {{ $key }}
+                                    @if ($key=='super_admin')
+                                        Super Admin
+                                    @elseif ($key=='admin')
+                                        Admin
+                                        @else
+                                        College Advisor
+                                    @endif
                                 </option>
                             @endforeach
                         </select>

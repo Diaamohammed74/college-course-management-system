@@ -22,4 +22,5 @@ class maxDegree implements Rule
     {
         return "The :attribute field cannot be greater than {$this->max}.";
     }
+
 }

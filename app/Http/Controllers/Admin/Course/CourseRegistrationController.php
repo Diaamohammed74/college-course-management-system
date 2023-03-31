@@ -68,24 +68,36 @@ class CourseRegistrationController extends Controller
                 'course_id'=>$request->course_id,
                 'student_id'=>$request->student_id
             ]);
-            $courseCreditHours = Course::where('id', $request->course_id)->value('credit_hours');
-            $totalEnrolledCoursesMarks = Course::where('id', $request->course_id)->value('full_mark');
-            $newTotalCreditHours = Student::where('id', $request->student_id)->value('total_completed_hours') + $courseCreditHours;
-            $newTotalEnrolledCoursesMarks = Student::where('id', $request->student_id)->value('total_enrolled_courses_marks') + $totalEnrolledCoursesMarks;
-            Student::where('id', $request->student_id)->update([
+            $this->updateCompletedHours($request);
+            return back()->with('success','Course Registred Successfuly');
+        }
+
+        public function updateCompletedHours(Request $request){
+            $courseCreditHours = Course::where('id', $request->course_id)
+            ->value('credit_hours');
+            $totalEnrolledCoursesMarks = Course::where('id', $request->course_id)
+            ->value('full_mark');
+            $newTotalCreditHours = Student::where('id', $request->student_id)
+            ->value('total_completed_hours') + $courseCreditHours;
+            $newTotalEnrolledCoursesMarks = Student::where('id', $request->student_id)
+            ->value('total_enrolled_courses_marks') + $totalEnrolledCoursesMarks;
+            Student::where('id', $request->student_id)
+            ->update([
                 'total_completed_hours' => $newTotalCreditHours,
                 'total_enrolled_courses_marks' => $newTotalEnrolledCoursesMarks
             ]);
-            return back()->with('success','Course Registred Successfuly');
         }
-    public function showRegisteredList($id){ 
+        public function showRegisteredList($id){ 
         $students=Student::with('course','department')->find($id);
+        $student = Student::with(['course' => function ($query) {
+            $query->onlyTrashed();
+        }])->withTrashed()->find($id);
         $requiredHours=Settings::value('required_hours');
-        return view('admin.CourseRegister.student-schedule',compact('students','requiredHours'));
+        return view('admin.CourseRegister.student-schedule',compact('students','student','requiredHours'));
     }
     public function deleteCourseRegistred($student_id,$course_id){
 
-        $student = Student::with('course', 'department')->find($student_id);
+    $student = Student::with('course', 'department')->find($student_id);
     $course = $student->course->where('id', $course_id)->first();
 
     if (!$course) {
@@ -101,8 +113,10 @@ class CourseRegistrationController extends Controller
                     $courseCreditHours = Course::where('id', $course_id)->value('credit_hours');
                     $courseFullMark = Course::where('id', $course_id)->value('full_mark');
                     $newTotalCreditHours = Student::where('id', $student_id)->value('total_completed_hours') - $courseCreditHours;
-                    $newTotalCoursesEnrolledMarks = Student::where('id', $student_id)->value('total_enrolled_courses_marks') - $courseFullMark;
-                    Student::where('id', $student_id)->update([
+                    $newTotalCoursesEnrolledMarks = Student::where('id', $student_id)
+                    ->value('total_enrolled_courses_marks') - $courseFullMark;
+                    Student::where('id', $student_id)
+                    ->update([
                         'total_completed_hours' => $newTotalCreditHours,
                         'total_enrolled_courses_marks'=>$newTotalCoursesEnrolledMarks
                     ]);

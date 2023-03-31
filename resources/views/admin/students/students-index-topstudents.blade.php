@@ -1,12 +1,16 @@
 @extends('admin.layout.app')
 
 @section('PageHeader')
-@foreach ($students as $student )
-    Top 10 Students <span style="color: red;"> {{$student->department->name}} {{$student->level->name}} </span>
-@endforeach
+    Top 10 Students
+    @if ($students->count() > 0)
+        <span style="color: red;">
+            {{ $students[0]->department->name }} {{ $students[0]->level->name }}
+        </span>
+        <br>
+    @endif
 @endsection
 @section('PageTitle')
-    Top 10 Students 
+    Top 10 Students
 @endsection
 @section('content')
     @include('admin.layout.messages')
@@ -35,10 +39,10 @@
                                 <td>{{ $student->email }}</td>
                                 <td>{{ $student->phone }}</td>
                                 <td>
-                                    @if($student->total_courses_grades>0)
-                                    {{$student->total_courses_grades}}
+                                    @if ($student->total_courses_grades > 0)
+                                        {{ $student->total_courses_grades }}
                                     @else
-                                    0
+                                        0
                                     @endif
                                 </td>
                                 <td class="d-flex">

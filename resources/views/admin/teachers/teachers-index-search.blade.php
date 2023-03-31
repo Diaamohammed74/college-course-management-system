@@ -1,20 +1,24 @@
 @extends('admin.layout.app')
 
 @section('PageHeader')
-    View-Teachers
+    View-Lecturer
 @endsection
 
 @section('PageTitle')
-    View-Teachers
+    View-Lecturer
 @endsection
 
 @section('content')
+    <div class="p-3">
+        <a href="{{route('teachers')}}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+            View Lecturers
+        </a>
+    </div>
     @include('admin.layout.messages')
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title"></h3>
-
                 <div class="card-tools">
                     <form action="{{ route('teachers/search') }}" method="GET">
                         <div class="input-group input-group-sm" style="width: 200px;">
@@ -34,6 +38,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -48,6 +53,7 @@
                         @forelse ($teachers as $teacher)
                             <tr>
                                 <td>{{ $teachers->firstItem() + $loop->index }}</td>
+                                <td>{{ $teacher->id }}</td>
                                 <td>{{ $teacher->name }}</td>
                                 <td>{{ $teacher->email }}</td>
                                 <td>{{ $teacher->phone }}</td>
@@ -92,7 +98,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9">
+                                <td colspan="10">
                                     <div class="alert alert-warning text-center" role="alert">
                                         <div>
                                             <b style="color: black"> There is no data </b>

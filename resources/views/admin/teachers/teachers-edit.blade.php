@@ -1,23 +1,24 @@
 @extends('admin.layout.app')
 
 @section('PageHeader')
-    Edit-Teacher
+    Edit-Lecturer
 @endsection
 
 @section('PageTitle')
-    Edit-Teacher
+    Edit-Lecturer
 @endsection
 
 @section('content')
     <div class="p-1">
-        <a href="#" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">Back to
-            Teachers</a>
+        <a href="{{route('teachers')}}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+            View Lecturers
+        </a>
     </div>
     @include('admin.layout.messages')
 
     <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Edit Teacher</h3>
+            <h3 class="card-title">Edit Lecturer</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
@@ -46,7 +47,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-4">
-                        <label for="name">Teacher Name</label>
+                        <label for="name">Lecturer Name</label>
                         <input type="text" name='name'
                             class="form-control @error('name')
                     is-invalid
@@ -57,7 +58,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="email">Teacher Email</label>
+                        <label for="email">Lecturer Email</label>
                         <input type="text" name='email'
                             class="form-control @error('email')
                     is-invalid
@@ -68,7 +69,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="phone">Teacher Phone</label>
+                        <label for="phone">Lecturer Phone</label>
                         <input type="phone" name='phone'
                             class="form-control @error('phone')
                     is-invalid

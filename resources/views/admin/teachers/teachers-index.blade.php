@@ -1,18 +1,18 @@
 @extends('admin.layout.app')
 
 @section('PageHeader')
-    View-Teachers
+    View-Lecturers
 @endsection
 
 @section('PageTitle')
-    View-Teachers
+    View-Lecturers
 @endsection
 
 @section('content')
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="filter">Filter:</label>
-            <form action="{{ route('teachers') }}" method="GET">
+    <form action="{{ route('teachers') }}" method="GET">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="filter">Filter:</label>
                 <div class="row">
                     <div class="col-sm-3">
                         <select class="form-control" name="department">
@@ -47,23 +47,23 @@
                     </div>
                     <div class="col-sm-3">
                         <button type="submit" class="btn btn-primary">Filter</button>
-                        <a href="{{ route('teachers') }}" class="btn btn-default">Reset</a>
+                        <a href="{{ route('teachers') }}" class="btn btn-info">Reset</a>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="pdf">Export PDF</label>
-            <form action="{{route('teachers.pdf')}}" method="GET">
+    </form>
+
+    <form action="{{ route('teachers.pdf') }}" method="GET">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="pdf">Export PDF</label>
                 <div class="row">
                     <div class="col-sm-3">
                         <select class="form-control" name="department">
                             <option value="">By Department</option>
                             @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
-                                    >
+                                <option value="{{ $department->id }}">
                                     {{ $department->name }}
                                 </option>
                             @endforeach
@@ -90,13 +90,13 @@
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <button type="submit" class="btn btn-primary">Export</button>
-                        <a href="{{ route('teachers') }}" class="btn btn-default">Reset</a>
+                        <button type="submit" class="btn btn-secondary">PDF</button>
+                        <a href="{{ route('teachers') }}" class="btn btn-info">Reset</a>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
     @include('admin.layout.messages')
     <div class="col-12">
         <div class="card">
@@ -130,7 +130,7 @@
                             <th>Teach</th>
                             <th>Status</th>
                             @cannot('is_college_advisor')
-                            <th>Manage</th>
+                                <th>Manage</th>
                             @endcannot
                         </tr>
                     </thead>
@@ -154,37 +154,38 @@
                                     @endif
                                 </td>
                                 <td class="d-flex">
-                                    <span style="width: 80px; height: 40px; font-size: 18px;" class="d-inline p-2 badge text-center badge-{{ $teacher->status == 'active' ? 'success' : 'danger' }}">
+                                    <span style="width: 80px; height: 40px; font-size: 18px;"
+                                        class="d-inline p-2 badge text-center badge-{{ $teacher->status == 'active' ? 'success' : 'danger' }}">
                                         {{ $teacher->status }}
                                     </span>
                                 </td>
                                 @cannot('is_college_advisor')
-                                <td>
-                                    <div class="btn-group manage-button" title="Group Management">
-                                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-cog"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="{{ route('teacher/edit', $teacher->id) }}">
-                                                <i class="fas fa-edit"></i> Update
-                                            </a>
-                                            <form action="{{ route('teacher/delete', $teacher->id) }}" method="POST"
-                                                class="delete-form">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="dropdown-item delete-button">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                            </form>
+                                    <td>
+                                        <div class="btn-group manage-button" title="Group Management">
+                                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-cog"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{{ route('teacher/edit', $teacher->id) }}">
+                                                    <i class="fas fa-edit"></i> Update
+                                                </a>
+                                                <form action="{{ route('teacher/delete', $teacher->id) }}" method="POST"
+                                                    class="delete-form">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item delete-button">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
+                                    </td>
                                 @endcannot
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9">
+                                <td colspan="10">
                                     <div class="alert alert-warning text-center" role="alert">
                                         <div>
                                             <b style="color: black"> There is no data </b>

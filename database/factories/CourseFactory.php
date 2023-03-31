@@ -18,12 +18,12 @@ class CourseFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->words(1, true). " BIS",
+            'name' => "Fmi Course".fake()->unique()->randomNumber(2, true) % 11,
             'description' => fake()->words(4, true),
             'credit_hours' => fake()->numberBetween(2, 3),
             'full_mark' => 100,
             'department_id' => function () {
-                return Department::first()->id;
+                return Department::where('id',2)->first()->id;
             },
         ];
     }

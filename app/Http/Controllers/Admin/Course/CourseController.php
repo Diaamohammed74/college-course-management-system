@@ -25,7 +25,6 @@ class CourseController extends Controller
         $query = $this->courseRepository->index();
         $departmentFilter = $request->department;
         $creditFilter = $request->credit;
-    
         if ($departmentFilter) {
             $query->where('department_id', '=', $departmentFilter);
         }
@@ -37,8 +36,10 @@ class CourseController extends Controller
             'credit'=>$creditFilter,
             'department'=>$departmentFilter
         ]);
-        // dd($courses);   
-        return view('admin.courses.courses-index', compact('courses', 'departmentFilter', 'creditFilter'));
+        $creditHours = $courses->pluck('credit_hours')->unique();
+        // dd($creditHours);
+        $departments=$this->departmentRepository->getAllDepartments();
+        return view('admin.courses.courses-index', compact('courses','departments','creditHours', 'departmentFilter', 'creditFilter'));
     }
 
     public function create()
@@ -105,5 +106,14 @@ class CourseController extends Controller
         $course->delete();
         return back()->with('deleted','Course Archived Successfuly');
     }
+    public function trashed(){
+        $this->authorize('index',Course::class);
+        $courses=$this->courseRepository->index()->onlyTrashed()->paginate(20);
+        return view('admin.courses.courses-archived', compact('courses', ));
+    }
 
+    public function restore($id){
+        Course::withTrashed()->where('id',$id)->restore();
+        return back()->with('success',"Course Restored Successfuly");
+    }
 }

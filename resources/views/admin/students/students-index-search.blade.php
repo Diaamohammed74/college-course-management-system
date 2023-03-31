@@ -8,7 +8,11 @@
     View-Students
 @endsection
 @section('content')
-
+<div class="p-3">
+    <a href="{{route('students')}}" class="btn btn-outline-primary col-2" role="button" aria-pressed="true">
+        View Students
+    </a>
+</div>
     @include('admin.layout.messages')
     <div class="col-12">
         <div class="card">
@@ -59,7 +63,7 @@
                                 </td>
                                 <td>
                                     @if($student->total_courses_grades>0)
-                                    {{($student->total_courses_grades/$student->total_enrolled_courses_marks)*100}} %
+                                    {{number_format(($student->total_courses_grades/$student->total_enrolled_courses_marks)*100,2) }}%
                                     @else
                                     ــ
                                     @endif

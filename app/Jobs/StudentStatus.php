@@ -24,7 +24,7 @@ class StudentStatus implements ShouldQueue
         $required_hours=Settings::value('required_hours');
         $students=Student::where('total_completed_hours','=',$required_hours)->get();
         foreach ($students as $student) {
-            Student::where('id',$student->id)
+            Student::where('id','=',$student->id)
             ->update(['status' => 'grad']);
         }
     }

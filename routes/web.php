@@ -12,7 +12,6 @@ use App\Http\Controllers\admin\Course\CourseRegistrationController;
 use App\Http\Controllers\Admin\Settings\RequiredHoursSettingsController;
 use App\Http\Controllers\Admin\Student\StudentStatusController;
 
-//Login Routes
 Route::controller(UserController::class)->group(function(){
     Route::get('login','login')->name('login');
     Route::post('loginrequest','loginrequest')->name('loginrequest');
@@ -20,8 +19,12 @@ Route::controller(UserController::class)->group(function(){
 });
 
 Route::group(["middleware"=>"auth"],function(){
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/','index')->name('home');
+    });
+});
 
-    Route::get('/',[HomeController::class,'index'])->name('home');
+Route::group(["middleware"=>"auth"],function(){
     Route::controller(UserController::class)->group(function(){
         Route::get('/users','show')->name('users');
         Route::get('/users/create','create')->name('users/add');
@@ -42,14 +45,17 @@ Route::group(['prefix'=>"department","middleware"=>"auth"],function(){
         Route::delete('delete/{id}','destroy')->name('department/delete');
     });
 });
+
 Route::group(['prefix'=>"course","middleware"=>"auth"],function(){
     Route::controller(CourseController::class)->group(function(){
         Route::get('/','index')->name('courses');
+        Route::get('/archived','trashed')->name('courses/archived');
         Route::get('create','create')->name('course/create');
         Route::POST('store','store')->name('course/store');
         Route::get('edit/{id}','edit')->name('course/edit');
         Route::POST('update/{id}','update')->name('course/update');
         Route::delete('delete/{id}','destroy')->name('course/delete');
+        Route::POST('restore/{id}','restore')->name('course/restore');
     });
 });
 
@@ -79,7 +85,6 @@ Route::group(['prefix'=>"student","middleware"=>"auth"],function(){
         Route::get('students/undergrad', 'studentsUnderGrad')->name('students/undergrad');
         Route::get('students/bylevel', 'studentsBylevel')->name('students/bylevel');
         Route::get('students/search', 'search')->name('student/search');
-
     });
 });
 
@@ -96,15 +101,17 @@ Route::group(['prefix'=>"courses","middleware"=>"auth"],function(){
 });
 
 Route::group(['prefix'=>"settings","middleware"=>"auth"],function(){
-    Route::get('update/studentStatus',[StudentStatusController::class,'updateStudentStatus'])->name('update/status');
+    Route::controller(StudentStatusController::class)->group(function(){
+        Route::get('update/studentStatus','updateStudentStatus')->name('update/status');
+    });
 });
 
 Route::group(['prefix'=>"students/results","middleware"=>"auth"],function(){
     Route::controller(ResultController::class)->group(function(){
         Route::get('/add',  'add')->name('result/add');
         Route::post('/store', 'storeResult')->name('result/store');
-        Route::post('/update', 'updateResult')->name('result/update');
-
+        Route::post('/store/{student_id}/{course_id}', 'storeResultFromModal')->name('result/store2');
+        Route::post('/update/{student_id}/{course_id}', 'updateResult')->name('result/update');
     });
 });
 
@@ -123,5 +130,3 @@ Route::group(['prefix'=>"settings","middleware"=>"auth"],function(){
         Route::post('/required_hours/update', 'update')->name('required_hours/update');
     });
 });
-
-

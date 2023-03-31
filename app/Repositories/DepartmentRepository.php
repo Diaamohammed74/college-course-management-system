@@ -10,7 +10,7 @@ class DepartmentRepository implements DepartmentRepositoryInterface
 {
 public function getAllDepartments()
 {
-    return Department::with('course','level')->get();
+    return Department::with('course','level','student')->get();
 }
 public function index()
 {

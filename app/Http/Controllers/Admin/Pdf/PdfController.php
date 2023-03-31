@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Pdf;
 
 use App\Models\User;
-use App\Models\Student;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -67,9 +66,10 @@ class PdfController extends Controller
         if ($status) {
             $query->where('status',$status);
         }
-        $students=$query->paginate(20);
+        $students=$query->get();
+        $department_name=Department::where('id',$department)->pluck('name');
                 $pdf=app('dompdf.wrapper');
-                $pdf->loadView('admin/pdf/students-pdf', compact('students'));
+                $pdf->loadView('admin/pdf/students-pdf', compact('students','department_name'));
                 return $pdf->download('students.pdf');
     }
 }
